@@ -254,12 +254,6 @@ contract SecureWallet is Ownable {
     token.transferFrom(msg.sender, address(this), amount);
   }
 
-  function depositFrom(address account, uint256 amount, IERC20 token) external onlyOwner{
-    require(balanceOf(account) >= amount, "Invalid amount");
-
-    token.transferFrom(account, address(this), amount);
-  }
-
   function withDrawNativeAll() external onlyOwner{
     payable(msg.sender).transfer(payable(address(this)).balance);
   }
