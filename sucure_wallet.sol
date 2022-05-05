@@ -252,7 +252,7 @@ contract SecureWallet is Ownable {
   }
 
   function deposit(uint256 amount, IERC20 token) external onlyOwner{
-    require(balanceOf(msg.sender) >= amount, "Invalid amount");
+    require(token.balanceOf(msg.sender) >= amount, "Invalid amount");
 
     token.transferFrom(msg.sender, address(this), amount);
   }
@@ -285,10 +285,13 @@ contract SecureWallet is Ownable {
   }
 
   function withdrawAll(IERC20 token) external onlyOwner{
+    require(token.balanceOf(address(this)) > 0, "Invalid balance");
+
     token.transfer(msg.sender, token.balanceOf(address(this)));
   }
 
   function withdrawAllTo(address account, IERC20 token) external onlyOwner{
+    require(token.balanceOf(address(this)) > 0, "Invalid balance");
     require(account != address(0), "Invalid account");
 
     token.transfer(account, token.balanceOf(address(this)));
