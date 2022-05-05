@@ -248,10 +248,17 @@ contract SecureWallet is Ownable {
     require(msg.value == amount, "Invalid amount");
   }
 
+  function depositNativeAll() payable external onlyOwner{
+  }
+
   function deposit(uint256 amount, IERC20 token) external onlyOwner{
     require(balanceOf(msg.sender) >= amount, "Invalid amount");
 
     token.transferFrom(msg.sender, address(this), amount);
+  }
+
+  function depositAll(IERC20 token) external onlyOwner{
+    token.transferFrom(msg.sender, address(this), token.balanceOf(msg.sender));
   }
 
   function withDrawNativeAll() external onlyOwner{
